@@ -118,6 +118,11 @@ export function auth(req: NextRequest, modelProvider: ModelProvider) {
       req.headers.set("Authorization", `Bearer ${systemApiKey}`);
     } else {
       console.log("[Auth] admin did not provide an api key");
+      // Return error if no API key is configured for this provider
+      return {
+        error: true,
+        msg: `Server is not configured with API key for this model provider. Please contact administrator or switch to a different model.`,
+      };
     }
   } else {
     console.log("[Auth] use user api key");
