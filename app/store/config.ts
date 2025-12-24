@@ -64,7 +64,7 @@ export const DEFAULT_CONFIG = {
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gemini-2.0-flash" as ModelType,
+    model: "gemini-3-pro-preview" as ModelType,
     providerName: "Google" as ServiceProvider,
     temperature: 0.5,
     top_p: 1,
