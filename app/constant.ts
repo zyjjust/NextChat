@@ -112,7 +112,7 @@ export const UNFINISHED_INPUT = (id: string) => "unfinished-input-" + id;
 
 export const STORAGE_KEY = "chatgpt-next-web";
 
-export const REQUEST_TIMEOUT_MS = 60000;
+export const REQUEST_TIMEOUT_MS = 180000;
 export const REQUEST_TIMEOUT_MS_FOR_THINKING = REQUEST_TIMEOUT_MS * 5;
 
 export const EXPORT_MESSAGE_CLASS_NAME = "export-markdown";
@@ -483,6 +483,7 @@ export const VISION_MODEL_REGEXES = [
   /gemini-1\.5/,
   /gemini-exp/,
   /gemini-2\.[05]/,
+  /gemini-3\.0/,
   /learnlm/,
   /qwen-vl/,
   /qwen2-vl/,
@@ -562,9 +563,9 @@ const googleModels = [
   "gemini-2.0-pro-exp-02-05",
   "gemini-2.5-pro-preview-06-05",
   "gemini-2.5-pro",
-  "gemini-3-pro",
-  "gemini-3-pro-preview",
-  "gemini-3-flash"
+  "gemini-3.0-pro",
+  "gemini-3.0-pro-preview",
+  "gemini-3.0-flash",
 ];
 
 const anthropicModels = [
@@ -743,7 +744,7 @@ const ai302Models = [
   "claude-sonnet-4-20250514",
   "claude-opus-4-20250514",
   "gemini-2.5-pro",
-  "gemini-3-pro",
+  "gemini-3.0-pro",
 ];
 
 let seq = 1000; // 内置的模型序号生成器从1000开始
