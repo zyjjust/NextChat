@@ -27,7 +27,10 @@ export async function handle(
     req.headers.get("x-goog-api-key") || req.headers.get("Authorization") || "";
   const token = bearToken.trim().replaceAll("Bearer ", "").trim();
 
-  const apiKey = token ? token : serverConfig.googleApiKey;
+  // If token starts with ACCESS_CODE_PREFIX (nk-), it's an access code, not an API key
+  // In this case, use the server's GOOGLE_API_KEY
+  const isAccessCode = token.startsWith("nk-");
+  const apiKey = (!token || isAccessCode) ? serverConfig.googleApiKey : token;
 
   if (!apiKey) {
     return NextResponse.json(
@@ -101,9 +104,7 @@ async function request(req: NextRequest, apiKey: string) {
     headers: {
       "Content-Type": "application/json",
       "Cache-Control": "no-store",
-      "x-goog-api-key":
-        req.headers.get("x-goog-api-key") ||
-        (req.headers.get("Authorization") ?? "").replace("Bearer ", ""),
+      "x-goog-api-key": apiKey,
     },
     method: req.method,
     body: req.body,
