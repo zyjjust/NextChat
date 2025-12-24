@@ -561,7 +561,10 @@ const googleModels = [
   "gemini-2.0-pro-exp",
   "gemini-2.0-pro-exp-02-05",
   "gemini-2.5-pro-preview-06-05",
-  "gemini-2.5-pro"
+  "gemini-2.5-pro",
+  "gemini-3-pro",
+  "gemini-3-pro-preview",
+  "gemini-3-flash"
 ];
 
 const anthropicModels = [
@@ -740,6 +743,7 @@ const ai302Models = [
   "claude-sonnet-4-20250514",
   "claude-opus-4-20250514",
   "gemini-2.5-pro",
+  "gemini-3-pro",
 ];
 
 let seq = 1000; // 内置的模型序号生成器从1000开始
