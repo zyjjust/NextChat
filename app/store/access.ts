@@ -23,7 +23,7 @@ import { getHeaders } from "../client/api";
 import { getClientConfig } from "../config/client";
 import { createPersistStore } from "../utils/store";
 import { ensure } from "../utils/clone";
-import { DEFAULT_CONFIG } from "./config";
+import { DEFAULT_CONFIG, useAppConfig } from "./config";
 import { getModelProvider } from "../utils/model";
 
 let fetchState = 0; // 0 not fetch, 1 fetching, 2 done
@@ -266,6 +266,11 @@ export const useAccessStore = createPersistStore(
             const [model, providerName] = getModelProvider(defaultModel);
             DEFAULT_CONFIG.modelConfig.model = model;
             DEFAULT_CONFIG.modelConfig.providerName = providerName as any;
+            // Also update the useAppConfig store to ensure new sessions use the correct model
+            useAppConfig.getState().update((config) => {
+              config.modelConfig.model = model;
+              config.modelConfig.providerName = providerName as any;
+            });
           }
 
           return res;
