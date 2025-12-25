@@ -560,10 +560,12 @@ export const useChatStore = createPersistStore(
         const contextPrompts = session.mask.context.slice();
 
         // system prompts, to get close to OpenAI Web ChatGPT
+        // Also inject for Gemini models so they know the current time
         const shouldInjectSystemPrompts =
           modelConfig.enableInjectSystemPrompts &&
           (session.mask.modelConfig.model.startsWith("gpt-") ||
-            session.mask.modelConfig.model.startsWith("chatgpt-"));
+            session.mask.modelConfig.model.startsWith("chatgpt-") ||
+            session.mask.modelConfig.model.startsWith("gemini-"));
 
         const mcpEnabled = await isMcpEnabled();
         const mcpSystemPrompt = mcpEnabled ? await getMcpSystemPrompt() : "";
