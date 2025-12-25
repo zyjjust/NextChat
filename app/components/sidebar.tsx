@@ -4,7 +4,7 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
+import GeminiIcon from "../icons/llm-icons/gemini.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import MaskIcon from "../icons/mask.svg";
@@ -250,7 +250,7 @@ export function SideBar(props: { className?: string }) {
       <SideBarHeader
         title="AI-EAS"
         subTitle="Build your own AI assistant."
-        logo={<ChatGptIcon />}
+        logo={<GeminiIcon />}
         shouldNarrow={shouldNarrow}
       >
         <div className={styles["sidebar-header-bar"]}>
