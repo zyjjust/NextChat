@@ -650,13 +650,14 @@ export function ChatActions(props: {
           icon={<PromptIcon />}
         />
 
-        <ChatAction
+        {/* Mask button hidden */}
+        {/* <ChatAction
           onClick={() => {
             navigate(Path.Masks);
           }}
           text={Locale.Chat.InputActions.Masks}
           icon={<MaskIcon />}
-        />
+        /> */}
 
         <ChatAction
           text={Locale.Chat.InputActions.Clear}

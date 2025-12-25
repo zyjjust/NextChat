@@ -135,7 +135,8 @@ export function NewChat() {
           ></IconButton>
         )}
       </div>
-      <div className={styles["mask-cards"]}>
+      {/* Mask cards hidden */}
+      {/* <div className={styles["mask-cards"]}>
         <div className={styles["mask-card"]}>
           <EmojiAvatar avatar="1f606" size={24} />
         </div>
@@ -145,19 +146,21 @@ export function NewChat() {
         <div className={styles["mask-card"]}>
           <EmojiAvatar avatar="1f479" size={24} />
         </div>
-      </div>
+      </div> */}
 
-      <div className={styles["title"]}>{Locale.NewChat.Title}</div>
-      <div className={styles["sub-title"]}>{Locale.NewChat.SubTitle}</div>
+      {/* Title and subtitle hidden */}
+      {/* <div className={styles["title"]}>{Locale.NewChat.Title}</div>
+      <div className={styles["sub-title"]}>{Locale.NewChat.SubTitle}</div> */}
 
       <div className={styles["actions"]}>
-        <IconButton
+        {/* Mask functionality hidden - only show direct start */}
+        {/* <IconButton
           text={Locale.NewChat.More}
           onClick={() => navigate(Path.Masks)}
           icon={<EyeIcon />}
           bordered
           shadow
-        />
+        /> */}
 
         <IconButton
           text={Locale.NewChat.Skip}
@@ -169,7 +172,8 @@ export function NewChat() {
         />
       </div>
 
-      <div className={styles["masks"]} ref={maskRef}>
+      {/* Mask list hidden */}
+      {/* <div className={styles["masks"]} ref={maskRef}>
         {groups.map((masks, i) => (
           <div key={i} className={styles["mask-row"]}>
             {masks.map((mask, index) => (
@@ -181,7 +185,7 @@ export function NewChat() {
             ))}
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
