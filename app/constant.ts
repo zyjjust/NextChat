@@ -468,6 +468,9 @@ export const KnowledgeCutOffDate: Record<string, string> = {
   "gemini-3.0-pro": "2025-01",
   "gemini-3.0-pro-preview": "2025-01",
   "gemini-3.0-flash": "2025-01",
+  "gemini-3-pro": "2025-01",
+  "gemini-3-pro-preview": "2025-01",
+  "gemini-3-flash": "2025-01",
   "deepseek-chat": "2024-07",
   "deepseek-coder": "2024-07",
 };
