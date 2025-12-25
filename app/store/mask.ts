@@ -1,7 +1,9 @@
 import { BUILTIN_MASKS } from "../masks";
-import { getLang, Lang } from "../locales";
-import { DEFAULT_TOPIC, ChatMessage } from "./chat";
-import { ModelConfig, useAppConfig } from "./config";
+import Locale, { getLang, Lang } from "../locales";
+import { DEFAULT_CONFIG, ModelConfig, useAppConfig } from "./config";
+
+// Import ChatMessage type only to avoid circular dependency
+import type { ChatMessage } from "./chat";
 import { StoreKey } from "../constant";
 import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";
@@ -32,14 +34,25 @@ export type MaskState = typeof DEFAULT_MASK_STATE & {
 };
 
 export const DEFAULT_MASK_AVATAR = "gpt-bot";
+
+// Helper function to get model config, handling the case when store hasn't hydrated yet
+const getModelConfig = () => {
+  const store = useAppConfig.getState();
+  // If store hasn't hydrated yet (during module load), use DEFAULT_CONFIG
+  if (!store._hasHydrated) {
+    return DEFAULT_CONFIG.modelConfig;
+  }
+  return store.modelConfig;
+};
+
 export const createEmptyMask = () =>
   ({
     id: nanoid(),
     avatar: DEFAULT_MASK_AVATAR,
-    name: DEFAULT_TOPIC,
+    name: Locale.Store.DefaultTopic,
     context: [],
     syncGlobalConfig: true, // use global config as default
-    modelConfig: { ...useAppConfig.getState().modelConfig },
+    modelConfig: { ...getModelConfig() },
     lang: getLang(),
     builtin: false,
     createdAt: Date.now(),

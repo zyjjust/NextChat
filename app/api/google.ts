@@ -4,8 +4,6 @@ import { getServerSideConfig } from "@/app/config/server";
 import { ApiPath, GEMINI_BASE_URL, ModelProvider } from "@/app/constant";
 import { prettyObject } from "@/app/utils/format";
 
-const serverConfig = getServerSideConfig();
-
 export async function handle(
   req: NextRequest,
   { params }: { params: { provider: string; path: string[] } },
@@ -15,6 +13,9 @@ export async function handle(
   if (req.method === "OPTIONS") {
     return NextResponse.json({ body: "OK" }, { status: 200 });
   }
+
+  // Get server config at request time (not module load time) to ensure env vars are available
+  const serverConfig = getServerSideConfig();
 
   const authResult = auth(req, ModelProvider.GeminiPro);
   if (authResult.error) {
@@ -36,7 +37,7 @@ export async function handle(
     return NextResponse.json(
       {
         error: true,
-        message: `missing GOOGLE_API_KEY in server env vars`,
+        message: `missing GOOGLE_API_KEY in server env vars (env exists: ${!!process.env.GOOGLE_API_KEY})`,
       },
       {
         status: 401,
@@ -44,7 +45,7 @@ export async function handle(
     );
   }
   try {
-    const response = await request(req, apiKey);
+    const response = await request(req, serverConfig, apiKey);
     return response;
   } catch (e) {
     console.error("[Google] ", e);
@@ -55,7 +56,8 @@ export async function handle(
 export const GET = handle;
 export const POST = handle;
 
-export const runtime = "edge";
+// Use Node.js runtime to ensure server env vars (e.g. GOOGLE_API_KEY) are available in local dev
+export const runtime = "nodejs";
 export const preferredRegion = [
   "bom1",
   "cle1",
@@ -71,7 +73,7 @@ export const preferredRegion = [
   "syd1",
 ];
 
-async function request(req: NextRequest, apiKey: string) {
+async function request(req: NextRequest, serverConfig: ReturnType<typeof getServerSideConfig>, apiKey: string) {
   const controller = new AbortController();
 
   let baseUrl = serverConfig.googleUrl || GEMINI_BASE_URL;

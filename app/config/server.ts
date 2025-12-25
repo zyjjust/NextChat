@@ -1,6 +1,16 @@
 import md5 from "spark-md5";
-import { DEFAULT_MODELS, DEFAULT_GA_ID } from "../constant";
+import { DEFAULT_MODELS, DEFAULT_GA_ID, ServiceProvider } from "../constant";
 import { isGPT4Model } from "../utils/model";
+
+function parseDefaultModelProvider(defaultModel: string): string | undefined {
+  const [model, provider] = defaultModel.split(/@(?!.*@)/);
+  if (provider) return provider;
+  if (model.startsWith("gemini-")) return ServiceProvider.Google;
+  if (model.startsWith("gpt-") || model.startsWith("chatgpt-")) {
+    return ServiceProvider.OpenAI;
+  }
+  return undefined;
+}
 
 declare global {
   namespace NodeJS {
@@ -119,10 +129,14 @@ function getApiKey(keys?: string) {
   const randomIndex = Math.floor(Math.random() * apiKeys.length);
   const apiKey = apiKeys[randomIndex];
   if (apiKey) {
+    const masked =
+      apiKey.length <= 8
+        ? `${apiKey.slice(0, 2)}***${apiKey.slice(-1)}`
+        : `${apiKey.slice(0, 3)}***${apiKey.slice(-4)}`;
     console.log(
       `[Server Config] using ${randomIndex + 1} of ${
         apiKeys.length
-      } api key - ${apiKey}`,
+      } api key - ${masked}`,
     );
   }
 
@@ -154,6 +168,7 @@ export const getServerSideConfig = () => {
   const isStability = !!process.env.STABILITY_API_KEY;
 
   const isAzure = !!process.env.AZURE_URL;
+  const isOpenAI = !!process.env.OPENAI_API_KEY;
   const isGoogle = !!process.env.GOOGLE_API_KEY;
   const isAnthropic = !!process.env.ANTHROPIC_API_KEY;
   const isTencent = !!process.env.TENCENT_API_KEY;
@@ -179,6 +194,22 @@ export const getServerSideConfig = () => {
   const allowedWebDavEndpoints = (
     process.env.WHITE_WEBDAV_ENDPOINTS ?? ""
   ).split(",");
+
+  // Validate/auto-pick default model based on enabled providers.
+  // This prevents the client from being forced to use an unavailable provider (e.g. OpenAI without OPENAI_API_KEY).
+  if (defaultModel) {
+    const provider = parseDefaultModelProvider(defaultModel);
+    if (provider === ServiceProvider.OpenAI && !isOpenAI) defaultModel = "";
+    if (provider === ServiceProvider.Google && !isGoogle) defaultModel = "";
+  }
+  if (!defaultModel) {
+    if (isGoogle) {
+      defaultModel = `gemini-2.0-flash@${ServiceProvider.Google}`;
+    } else if (isOpenAI) {
+      // Keep a conservative OpenAI fallback when OpenAI is actually configured.
+      defaultModel = `gpt-3.5-turbo@${ServiceProvider.OpenAI}`;
+    }
+  }
 
   return {
     baseUrl: process.env.BASE_URL,

@@ -872,7 +872,7 @@ export const useChatStore = createPersistStore(
   },
   {
     name: StoreKey.Chat,
-    version: 3.3,
+    version: 3.5,
     migrate(persistedState, version) {
       const state = persistedState as any;
       const newState = JSON.parse(
@@ -934,6 +934,48 @@ export const useChatStore = createPersistStore(
           const config = useAppConfig.getState();
           s.mask.modelConfig.compressModel = "";
           s.mask.modelConfig.compressProviderName = "";
+        });
+      }
+
+      // Force migrate legacy default session model from OpenAI(gpt-3.5) to Google(Gemini)
+      // This fixes cases where chat sessions were persisted with the old default and kept overriding requests.
+      if (version < 3.4) {
+        const target = useAppConfig.getState().modelConfig;
+        newState.sessions.forEach((s) => {
+          const mc = s?.mask?.modelConfig;
+          if (!mc) return;
+          const isLegacyDefault =
+            mc.providerName === ServiceProvider.OpenAI &&
+            (mc.model === "gpt-3.5-turbo" ||
+              mc.model === "gpt-3.5-turbo-1106" ||
+              mc.model === "gpt-3.5-turbo-0125");
+
+          // Only rewrite when it looks like the unwanted legacy default.
+          if (isLegacyDefault) {
+            mc.model = target.model;
+            mc.providerName = target.providerName;
+          }
+        });
+      }
+
+      // Run again with looser matching (case/format differences in persisted providerName).
+      if (version < 3.5) {
+        const target = useAppConfig.getState().modelConfig;
+        newState.sessions.forEach((s) => {
+          const mc = s?.mask?.modelConfig;
+          if (!mc) return;
+          const providerKey = String(mc.providerName ?? "")
+            .toLowerCase()
+            .replaceAll(" ", "");
+          const isOpenAIish = providerKey === "openai";
+          const isLegacyGpt35 =
+            mc.model === "gpt-3.5-turbo" ||
+            mc.model === "gpt-3.5-turbo-1106" ||
+            mc.model === "gpt-3.5-turbo-0125";
+          if (isOpenAIish && isLegacyGpt35) {
+            mc.model = target.model;
+            mc.providerName = target.providerName;
+          }
         });
       }
 

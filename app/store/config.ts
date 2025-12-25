@@ -64,7 +64,7 @@ export const DEFAULT_CONFIG = {
   models: DEFAULT_MODELS as any as LLMModel[],
 
   modelConfig: {
-    model: "gemini-3-pro-preview" as ModelType,
+    model: "gemini-2.0-flash" as ModelType,
     providerName: "Google" as ServiceProvider,
     temperature: 0.5,
     top_p: 1,
@@ -195,7 +195,7 @@ export const useAppConfig = createPersistStore(
   }),
   {
     name: StoreKey.Config,
-    version: 4.1,
+    version: 4.4,
 
     merge(persistedState, currentState) {
       const state = persistedState as ChatConfig | undefined;
@@ -208,7 +208,29 @@ export const useAppConfig = createPersistStore(
         if (idx !== -1) models[idx] = pModel;
         else models.push(pModel);
       });
-      return { ...currentState, ...state, models: models };
+      const merged = { ...currentState, ...state, models: models } as ChatConfig;
+
+      // Self-heal: some users may have persisted an unwanted legacy default
+      // (gpt-3.5-turbo@OpenAI) which keeps forcing requests to /api/openai.
+      // If we detect that legacy default, force it back to current DEFAULT_CONFIG.
+      const mc = merged.modelConfig;
+      const providerKey = String(mc?.providerName ?? "")
+        .toLowerCase()
+        .replaceAll(" ", "");
+      const isOpenAIish = providerKey === "openai";
+      const isLegacyGpt35 =
+        mc?.model === "gpt-3.5-turbo" ||
+        mc?.model === "gpt-3.5-turbo-1106" ||
+        mc?.model === "gpt-3.5-turbo-0125";
+      const wantsGoogleDefault =
+        DEFAULT_CONFIG.modelConfig.providerName === ServiceProvider.Google;
+
+      // When this build wants Google as default, aggressively heal legacy gpt-3.5 defaults.
+      if (wantsGoogleDefault && (isLegacyGpt35 || isOpenAIish)) {
+        merged.modelConfig = { ...DEFAULT_CONFIG.modelConfig };
+      }
+
+      return merged;
     },
 
     migrate(persistedState, version) {
@@ -253,6 +275,23 @@ export const useAppConfig = createPersistStore(
           DEFAULT_CONFIG.modelConfig.compressModel;
         state.modelConfig.compressProviderName =
           DEFAULT_CONFIG.modelConfig.compressProviderName;
+      }
+
+      // Force update to Gemini model for all existing users
+      if (version < 4.2) {
+        state.modelConfig.model = DEFAULT_CONFIG.modelConfig.model;
+        state.modelConfig.providerName = DEFAULT_CONFIG.modelConfig.providerName;
+      }
+
+      // Force update again (some users may already have persisted version 4.2 with old modelConfig)
+      if (version < 4.3) {
+        state.modelConfig.model = DEFAULT_CONFIG.modelConfig.model;
+        state.modelConfig.providerName = DEFAULT_CONFIG.modelConfig.providerName;
+      }
+
+      if (version < 4.4) {
+        state.modelConfig.model = DEFAULT_CONFIG.modelConfig.model;
+        state.modelConfig.providerName = DEFAULT_CONFIG.modelConfig.providerName;
       }
 
       return state as any;

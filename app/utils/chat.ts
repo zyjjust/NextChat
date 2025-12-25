@@ -303,11 +303,17 @@ export function stream(
     requestPayload: any,
     tools: any,
   ) {
+    // Merge tools: keep original tools from requestPayload (like googleSearch) and add plugin tools
+    let mergedTools = requestPayload.tools || [];
+    if (tools && tools.length > 0) {
+      mergedTools = [...mergedTools, ...tools];
+    }
+
     const chatPayload = {
       method: "POST",
       body: JSON.stringify({
         ...requestPayload,
-        tools: tools && tools.length ? tools : undefined,
+        tools: mergedTools.length > 0 ? mergedTools : undefined,
       }),
       signal: controller.signal,
       headers,
@@ -529,11 +535,17 @@ export function streamWithThink(
     requestPayload: any,
     tools: any,
   ) {
+    // Merge tools: keep original tools from requestPayload (like googleSearch) and add plugin tools
+    let mergedTools = requestPayload.tools || [];
+    if (tools && tools.length > 0) {
+      mergedTools = [...mergedTools, ...tools];
+    }
+    
     const chatPayload = {
       method: "POST",
       body: JSON.stringify({
         ...requestPayload,
-        tools: tools && tools.length ? tools : undefined,
+        tools: mergedTools.length > 0 ? mergedTools : undefined,
       }),
       signal: controller.signal,
       headers,

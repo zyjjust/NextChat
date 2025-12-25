@@ -150,16 +150,16 @@ export class GeminiProApi implements LLMApi {
         model: options.config.model,
       },
     };
+
+    // Use the model ID directly as specified by user
+    const modelId = modelConfig.model;
+
     const requestPayload = {
       contents: messages,
       generationConfig: {
-        // stopSequences: [
-        //   "Title"
-        // ],
         temperature: modelConfig.temperature,
         maxOutputTokens: modelConfig.max_tokens,
         topP: modelConfig.top_p,
-        // "topK": modelConfig.top_k,
       },
       safetySettings: [
         {
@@ -179,10 +179,10 @@ export class GeminiProApi implements LLMApi {
           threshold: accessStore.googleSafetySettings,
         },
       ],
-      // Enable Google Search grounding for real-time information
+      // Enable Google Search grounding - use google_search format as required by API
       tools: [
         {
-          googleSearch: {},
+          google_search: {},
         },
       ],
     };
@@ -192,10 +192,11 @@ export class GeminiProApi implements LLMApi {
     options.onController?.(controller);
     try {
       // https://github.com/google-gemini/cookbook/blob/main/quickstarts/rest/Streaming_REST.ipynb
-      const chatPath = this.path(
-        Google.ChatPath(modelConfig.model),
-        shouldStream,
-      );
+      let chatPath = this.path(Google.ChatPath(modelId), shouldStream);
+      // Force use v1beta for grounding support if not already
+      if (!chatPath.includes("v1beta")) {
+        chatPath = chatPath.replace("/v1/", "/v1beta/");
+      }
 
       const chatPayload = {
         method: "POST",
@@ -204,7 +205,7 @@ export class GeminiProApi implements LLMApi {
         headers: getHeaders(),
       };
 
-      const isThinking = options.config.model.includes("-thinking");
+      const isThinking = modelId.includes("-thinking");
       // make a fetch request
       const requestTimeoutId = setTimeout(
         () => controller.abort(),

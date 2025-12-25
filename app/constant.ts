@@ -580,6 +580,10 @@ const googleModels = [
   "gemini-3.0-pro",
   "gemini-3.0-pro-preview",
   "gemini-3.0-flash",
+  // Gemini 3 (without ".0" suffix) - some deployments/providers expose these aliases
+  "gemini-3-pro",
+  "gemini-3-pro-preview",
+  "gemini-3-flash",
 ];
 
 const anthropicModels = [
