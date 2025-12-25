@@ -172,11 +172,21 @@ function fillTemplateWith(input: string, modelConfig: ModelConfig) {
     serviceProvider = modelInfo.provider.providerName;
   }
 
+  const now = new Date();
+  const timeString = now.toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+  });
+  
   const vars = {
     ServiceProvider: serviceProvider,
     cutoff,
     model: modelConfig.model,
-    time: new Date().toString(),
+    time: timeString,
     lang: getLang(),
     input: input,
   };

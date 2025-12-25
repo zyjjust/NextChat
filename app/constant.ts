@@ -292,6 +292,7 @@ You are ChatGPT, a large language model trained by {{ServiceProvider}}.
 Knowledge cutoff: {{cutoff}}
 Current model: {{model}}
 Current time: {{time}}
+IMPORTANT: When answering questions about the current date or time, you MUST use the "Current time" information provided above, not your training data cutoff date.
 Latex inline: \\(x^2\\) 
 Latex block: $$e=mc^2$$
 `;
@@ -457,6 +458,16 @@ export const KnowledgeCutOffDate: Record<string, string> = {
   // it's now easier to add "KnowledgeCutOffDate" instead of stupid hardcoding it, as was done previously.
   "gemini-pro": "2023-12",
   "gemini-pro-vision": "2023-12",
+  "gemini-1.5-pro": "2024-04",
+  "gemini-1.5-pro-latest": "2024-04",
+  "gemini-1.5-flash": "2024-04",
+  "gemini-1.5-flash-latest": "2024-04",
+  "gemini-2.0-flash": "2024-10",
+  "gemini-2.0-pro-exp": "2024-10",
+  "gemini-2.5-pro": "2024-12",
+  "gemini-3.0-pro": "2025-01",
+  "gemini-3.0-pro-preview": "2025-01",
+  "gemini-3.0-flash": "2025-01",
   "deepseek-chat": "2024-07",
   "deepseek-coder": "2024-07",
 };
