@@ -179,6 +179,12 @@ export class GeminiProApi implements LLMApi {
           threshold: accessStore.googleSafetySettings,
         },
       ],
+      // Enable Google Search grounding for real-time information
+      tools: [
+        {
+          googleSearch: {},
+        },
+      ],
     };
 
     let shouldStream = !!options.config.stream;
