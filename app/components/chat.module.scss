@@ -737,6 +737,10 @@
     flex-direction: column;
     flex: 1;
     width: 100%;
+    background-image: url("/gemini-sparkle-aurora.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .chat-side-panel {
     position: absolute;
