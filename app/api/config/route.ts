@@ -17,21 +17,21 @@ declare global {
 
 async function handle() {
   // Get server config at request time (not module load time) to ensure env vars are available
-  const serverConfig = getServerSideConfig();
+const serverConfig = getServerSideConfig();
 
-  // Danger! Do not hard code any secret value here!
-  // 警告！不要在这里写入任何敏感信息！
+// Danger! Do not hard code any secret value here!
+// 警告！不要在这里写入任何敏感信息！
   const DANGER_CONFIG: DangerConfig = {
-    needCode: serverConfig.needCode,
-    hideUserApiKey: serverConfig.hideUserApiKey,
-    disableGPT4: serverConfig.disableGPT4,
-    hideBalanceQuery: serverConfig.hideBalanceQuery,
-    disableFastLink: serverConfig.disableFastLink,
-    customModels: serverConfig.customModels,
-    defaultModel: serverConfig.defaultModel,
-    visionModels: serverConfig.visionModels,
-  };
-  
+  needCode: serverConfig.needCode,
+  hideUserApiKey: serverConfig.hideUserApiKey,
+  disableGPT4: serverConfig.disableGPT4,
+  hideBalanceQuery: serverConfig.hideBalanceQuery,
+  disableFastLink: serverConfig.disableFastLink,
+  customModels: serverConfig.customModels,
+  defaultModel: serverConfig.defaultModel,
+  visionModels: serverConfig.visionModels,
+};
+
   return NextResponse.json(DANGER_CONFIG);
 }
 
