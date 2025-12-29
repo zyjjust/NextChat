@@ -1551,6 +1551,7 @@ export function Settings() {
             </Popover>
           </ListItem>
 
+          {/* 屏蔽检查更新功能
           <ListItem
             title={Locale.Settings.Update.Version(currentVersion ?? "unknown")}
             subTitle={
@@ -1583,6 +1584,7 @@ export function Settings() {
               />
             )}
           </ListItem>
+          */}
 
           <ListItem title={Locale.Settings.SendKey}>
             <Select
@@ -1742,7 +1744,9 @@ export function Settings() {
           </ListItem>
         </List>
 
+        {/* 屏蔽云端数据功能
         <SyncItems />
+        */}
 
         <List>
           <ListItem
@@ -1816,12 +1820,16 @@ export function Settings() {
         </List>
 
         <List id={SlotID.CustomModel}>
+          {/* 屏蔽NextChat AI推广
           {saasStartComponent}
+          */}
           {accessCodeComponent}
 
           {!accessStore.hideUserApiKey && (
             <>
+              {/* 屏蔽自定义接口功能
               {useCustomConfigComponent}
+              */}
 
               {accessStore.useCustomConfig && (
                 <>
@@ -1895,6 +1903,7 @@ export function Settings() {
             </ListItem>
           ) : null}
 
+          {/* 屏蔽自定义模型名功能
           <ListItem
             title={Locale.Settings.Access.CustomModel.Title}
             subTitle={Locale.Settings.Access.CustomModel.SubTitle}
@@ -1913,6 +1922,7 @@ export function Settings() {
               }
             ></input>
           </ListItem>
+          */}
         </List>
 
         <List>
