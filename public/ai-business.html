@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI ҵ����ս��ͼ - ҵ�������Աָ��</title>
+    <title>AI 业务作战地图 - 业务管理人员指南</title>
     
-    <!-- ���� Tailwind CSS -->
+    <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- ���� React �� ReactDOM -->
+    <!-- 引入 React 和 ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- ���� Babel ���ڽ��� JSX -->
+    <!-- 引入 Babel 用于解析 JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- ���� Tailwind -->
+    <!-- 配置 Tailwind -->
     <script>
         tailwind.config = {
             theme: {
@@ -39,8 +39,8 @@
     <script type="text/babel">
         const { useState } = React;
 
-        // --- ͼ����� (SVG Definitions) ---
-        // Ϊ�˵��ļ����У������ֶ�������Щͼ�꣬�������ⲿͼ���ű�
+        // --- 图标组件 (SVG Definitions) ---
+        // 为了单文件运行，我们手动定义这些图标，不依赖外部图标库脚本
         const IconWrapper = ({ children, className, ...props }) => (
             <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -73,7 +73,7 @@
         const ChevronDown = (props) => <IconWrapper {...props}><path d="m6 9 6 6 6-6"/></IconWrapper>;
         const ExternalLink = (props) => <IconWrapper {...props}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></IconWrapper>;
 
-        // --- ��ҳ����� ---
+        // --- 主页面组件 ---
         const AIGuidePage = () => {
           return (
             <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-100">
@@ -85,13 +85,13 @@
                       <div className="bg-blue-600 p-1.5 rounded-lg">
                         <Cpu className="h-6 w-6 text-white" />
                       </div>
-                      <span className="font-bold text-xl tracking-tight text-slate-800">AI ҵ����ս��ͼ</span>
+                      <span className="font-bold text-xl tracking-tight text-slate-800">AI 业务作战地图</span>
                     </div>
                     <div className="hidden md:flex space-x-8 text-sm font-medium text-slate-600">
-                      <a href="#comparison" className="hover:text-blue-600 transition-colors">������ʽ�Ա�</a>
-                      <a href="#models" className="hover:text-blue-600 transition-colors">�����ܹ�</a>
-                      <a href="#security" className="hover:text-blue-600 transition-colors">�����ȫ</a>
-                      <a href="#tools" className="hover:text-blue-600 transition-colors">����ʵս</a>
+                      <a href="#comparison" className="hover:text-blue-600 transition-colors">开发范式对比</a>
+                      <a href="#models" className="hover:text-blue-600 transition-colors">技术架构</a>
+                      <a href="#security" className="hover:text-blue-600 transition-colors">央国企安全</a>
+                      <a href="#tools" className="hover:text-blue-600 transition-colors">工具实战</a>
                     </div>
                   </div>
                 </div>
@@ -105,21 +105,21 @@
                   <div className="max-w-3xl">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-sm font-semibold mb-6">
                       <Zap size={16} />
-                      ����ҵ������ߵ� AI ͨʶ��
+                      面向业务管理者的 AI 通识课
                     </div>
                     <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-                      �� <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Chat</span> �� <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Delivery</span>
+                      从 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Chat</span> 到 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Delivery</span>
                     </h1>
                     <p className="text-xl text-slate-300 mb-10 leading-relaxed max-w-2xl">
-                      ��Ҫ�����������ŵ�����ָ��ּ�ڰ���ҵ�����ܽ���"AI-Native"˼ά��
-                      ������ͻ�̸�� AI �����Ļ���Ȩ����������ʽ AI ����ع����������ĳɱ��ṹ��
+                      不要被技术术语吓倒。本指南旨在帮助业务主管建立“AI-Native”思维，
+                      掌握与客户谈论 AI 机会点的话语权，理解生成式 AI 如何重构软件交付的成本结构。
                     </p>
                     <div className="flex gap-4">
                       <a href="#comparison" className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition-all shadow-lg shadow-blue-900/50 flex items-center gap-2">
-                        ��ʼѧϰ <ChevronDown size={18} />
+                        开始学习 <ChevronDown size={18} />
                       </a>
                       <a href="#roadmap" className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg font-semibold backdrop-blur-sm transition-all">
-                        �鿴ѧϰͼ��
+                        查看学习图谱
                       </a>
                     </div>
                   </div>
@@ -128,12 +128,12 @@
 
               <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
-                {/* 1. ��ʽת�ƣ���ͳ vs AI */}
+                {/* 1. 范式转移：传统 vs AI */}
                 <section id="comparison" className="scroll-mt-24">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl mb-4">��������ʽת��</h2>
+                    <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl mb-4">生产力范式转移</h2>
                     <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                      Ϊʲô������������ŵظ��ͻ�˵"���ǿ��Կ��ٳ�Demo"����Ϊ���������ı߼ʳɱ����ڹ��㡣
+                      为什么现在你可以自信地跟客户说“我们可以快速出Demo”？因为软件生产的边际成本正在归零。
                     </p>
                   </div>
 
@@ -145,28 +145,28 @@
                           <div className="p-2 bg-slate-200 rounded-lg text-slate-600">
                             <Server size={24} />
                           </div>
-                          <h3 className="text-xl font-bold text-slate-700">��ͳ����ģʽ (1.0)</h3>
+                          <h3 className="text-xl font-bold text-slate-700">传统开发模式 (1.0)</h3>
                         </div>
                         <ul className="space-y-4">
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">ȷ���Ա��</span>
-                              <span className="text-sm text-slate-500">ÿһ�д����߼�����Ҫ�˹���д���޸ĳɱ����ߣ�ǣһ������ȫ������</span>
+                              <span className="font-semibold block text-slate-800">确定性编程</span>
+                              <span className="text-sm text-slate-500">每一行代码逻辑都需要人工编写，修改成本极高（牵一发而动全身）。</span>
                             </div>
                           </li>
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">רҵ���ݸ�</span>
-                              <span className="text-sm text-slate-500">ҵ����д����PRD��������ת��Ϊ���룬��ͨ��ľ޴�</span>
+                              <span className="font-semibold block text-slate-800">专业壁垒高</span>
+                              <span className="text-sm text-slate-500">业务需写万字PRD，开发需转译为代码，沟通损耗巨大。</span>
                             </div>
                           </li>
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-red-400 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">�������ڣ���/��</span>
-                              <span className="text-sm text-slate-500">��֤һ���뷨ͨ����Ҫ���ܵĿ����Ͳ��ԡ�</span>
+                              <span className="font-semibold block text-slate-800">交付周期：月/周</span>
+                              <span className="text-sm text-slate-500">验证一个想法通常需要数周的开发和测试。</span>
                             </div>
                           </li>
                         </ul>
@@ -181,53 +181,53 @@
                           <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                             <Bot size={24} />
                           </div>
-                          <h3 className="text-xl font-bold text-blue-900">AI ����/����ģʽ (2.0)</h3>
+                          <h3 className="text-xl font-bold text-blue-900">AI 辅助/生成模式 (2.0)</h3>
                         </div>
                         <ul className="space-y-4">
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">���������� + ��Ȼ����</span>
-                              <span className="text-sm text-slate-600">����Ȼ���ԣ�Prompt��ֱ�����ɴ��룬AI �������ʵ��ϸ�ڡ�</span>
+                              <span className="font-semibold block text-slate-800">概率性生成 + 自然语言</span>
+                              <span className="text-sm text-slate-600">用自然语言（Prompt）直接生成代码，AI 负责具体实现细节。</span>
                             </div>
                           </li>
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">ҵ�񼴿���</span>
-                              <span className="text-sm text-slate-600">��ҵ����˿����� Cursor/Coze ֱ�ӹ���ԭ�ͣ����������빦�ס�</span>
+                              <span className="font-semibold block text-slate-800">业务即开发</span>
+                              <span className="text-sm text-slate-600">懂业务的人可以用 Cursor/Coze 直接构建原型，无需深厚代码功底。</span>
                             </div>
                           </li>
                           <li className="flex items-start gap-3">
                             <span className="mt-1 w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
                             <div>
-                              <span className="font-semibold block text-slate-800">�������ڣ�Сʱ/����</span>
-                              <span className="text-sm text-slate-600">�ֳ����ͻ���ʾ Demo����������Դ��ɱ���</span>
+                              <span className="font-semibold block text-slate-800">交付周期：小时/分钟</span>
+                              <span className="text-sm text-slate-600">现场给客户演示 Demo，大幅降低试错成本。</span>
                             </div>
                           </li>
                         </ul>
                       </div>
                     </div>
                     <div className="bg-slate-900 text-slate-300 p-4 text-center text-sm">
-                      ? <span className="font-semibold text-white">���Ļ�����</span> "��ǰ��Ҫ�Ҹĸ�����Ҫ�������ܣ�����ֻҪ����Ҫ�����ֳ�������AI������ŵ����Ӹ��㿴��"
+                      💡 <span className="font-semibold text-white">核心话术：</span> "以前你要我改个功能要排期两周，现在只要你需要，我现场就能让AI调整大概的样子给你看。"
                     </div>
                   </div>
                 </section>
 
-                {/* 2. ������ͼ��ܹ� */}
+                {/* 2. 技术版图与架构 */}
                 <section id="models" className="scroll-mt-24">
                   <div className="flex flex-col md:flex-row gap-12">
                     <div className="md:w-1/3">
-                      <h2 className="text-3xl font-bold text-slate-900 mb-6">��������ȫ��</h2>
+                      <h2 className="text-3xl font-bold text-slate-900 mb-6">主流技术全景</h2>
                       <p className="text-slate-600 mb-4">
-                        ��Ҫֻ֪�� ChatGPT���ڸ��ͻ���ʱ������"��ģ��"��"�ܹ�"��רҵ�����֡�
+                        不要只知道 ChatGPT。在跟客户聊时，区分“大模型”和“架构”是专业的体现。
                       </p>
                       <div className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
-                        <h4 className="font-bold text-amber-800 text-sm mb-1">�ؼ��������</h4>
+                        <h4 className="font-bold text-amber-800 text-sm mb-1">关键概念辨析</h4>
                         <p className="text-amber-700 text-xs leading-relaxed">
-                          <strong>LLM (��ģ��):</strong> ���ԣ�����˼����<br/>
-                          <strong>RAG (֪ʶ��):</strong> ͼ��ݣ���������Բ���˽�����ݡ�<br/>
-                          <strong>Agent (������):</strong> �ֽţ�������ù���ȥ�ɻ
+                          <strong>LLM (大模型):</strong> 大脑，负责思考。<br/>
+                          <strong>RAG (知识库):</strong> 图书馆，负责给大脑查阅私有数据。<br/>
+                          <strong>Agent (智能体):</strong> 手脚，负责调用工具去干活。
                         </p>
                       </div>
                     </div>
@@ -238,13 +238,13 @@
                         <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600">
                           <Database size={20} />
                         </div>
-                        <h3 className="font-bold text-lg mb-2">��������ģ��</h3>
+                        <h3 className="font-bold text-lg mb-2">主流基座模型</h3>
                         <ul className="text-sm text-slate-600 space-y-2">
-                          <li className="flex justify-between"><span>?? Gemini 3 Pro</span> <span className="text-slate-400">�ۺ���ǿ/ԭ����ģ̬</span></li>
-                          <li className="flex justify-between"><span>?? GPT-4o (OpenAI)</span> <span className="text-slate-400">��ҵ�ۺϱ��</span></li>
-                          <li className="flex justify-between"><span>?? Claude 3.5 Sonnet</span> <span className="text-slate-400">�������߼���ǿ</span></li>
-                          <li className="flex justify-between"><span>?? DeepSeek (�������)</span> <span className="text-slate-400">��������֮��</span></li>
-                          <li className="flex justify-between"><span>?? Kimi / ͨ��ǧ��</span> <span className="text-slate-400">���ı�/������̬</span></li>
+                          <li className="flex justify-between"><span>🇺🇸 Gemini 3 Pro</span> <span className="text-slate-400">综合最强/原生多模态</span></li>
+                          <li className="flex justify-between"><span>🇺🇸 GPT-4o (OpenAI)</span> <span className="text-slate-400">行业综合标杆</span></li>
+                          <li className="flex justify-between"><span>🇺🇸 Claude 3.5 Sonnet</span> <span className="text-slate-400">代码与逻辑最强</span></li>
+                          <li className="flex justify-between"><span>🇨🇳 DeepSeek (深度求索)</span> <span className="text-slate-400">国产推理之光</span></li>
+                          <li className="flex justify-between"><span>🇨🇳 Kimi / 通义千问</span> <span className="text-slate-400">长文本/阿里生态</span></li>
                         </ul>
                       </div>
 
@@ -253,12 +253,12 @@
                         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-4 text-blue-600">
                           <BookOpen size={20} />
                         </div>
-                        <h3 className="font-bold text-lg mb-2">RAG (������ǿ����)</h3>
+                        <h3 className="font-bold text-lg mb-2">RAG (检索增强生成)</h3>
                         <p className="text-sm text-slate-600 mb-3">
-                          ���AI"��˵�˵�"�Ĺؼ���ԭ����������ҵ֪ʶ�����Ѵ𰸣�����AI�ܽᡣ
+                          解决AI"胡说八道"的关键。原理：先在企业知识库里搜答案，再让AI总结。
                         </p>
                         <div className="text-xs font-mono bg-slate-100 p-2 rounded text-slate-500">
-                          �ͻ����������ܿͷ�����ͬ��顢�������
+                          客户场景：智能客服、合同审查、标书分析
                         </div>
                       </div>
 
@@ -267,136 +267,136 @@
                         <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mb-4 text-emerald-600">
                           <Bot size={20} />
                         </div>
-                        <h3 className="font-bold text-lg mb-2">Agent (������)</h3>
+                        <h3 className="font-bold text-lg mb-2">Agent (智能体)</h3>
                         <p className="text-sm text-slate-600 mb-3">
-                          �����������졣Agent���Թ滮���񲢵���API��
+                          不仅仅是聊天。Agent可以规划任务并调用API。
                         </p>
                         <div className="text-xs font-mono bg-slate-100 p-2 rounded text-slate-500">
-                          �ͻ��������Զ���Ʊ���Զ����ʼ����Զ�����ά
+                          客户场景：自动订票、自动发邮件、自动化运维
                         </div>
                       </div>
                     </div>
                   </div>
                 </section>
 
-                {/* 3. ҵ���ֵ */}
+                {/* 3. 业务价值 */}
                 <section className="bg-slate-900 rounded-3xl p-8 md:p-12 text-white overflow-hidden relative">
                    <div className="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-blue-500 rounded-full blur-3xl opacity-20"></div>
                    
-                   <h2 className="text-3xl font-bold mb-8 relative z-10">AI �ܸ�ҵ�����ʲô��(ROI)</h2>
+                   <h2 className="text-3xl font-bold mb-8 relative z-10">AI 能给业务带来什么？(ROI)</h2>
                    <div className="grid md:grid-cols-3 gap-8 relative z-10">
                       <div>
                         <div className="text-blue-400 mb-4"><TrendingUp size={32} /></div>
-                        <h3 className="text-xl font-bold mb-2">���µĽ�����Ч</h3>
+                        <h3 className="text-xl font-bold mb-2">极致的降本增效</h3>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                          ��"����ͷ����"ת��Ϊ"��Token����"���ͷ������������д�����롢�İ����ɵ��ظ��������Ͷ����ɱ��ɽ��� 80% ���ϡ�
+                          从“按人头付费”转变为“按Token付费”。客服、初级代码编写、翻译、文案生成等重复性脑力劳动，成本可降低 80% 以上。
                         </p>
                       </div>
                       <div>
                         <div className="text-blue-400 mb-4"><Target size={32} /></div>
-                        <h3 className="text-xl font-bold mb-2">�ǽṹ�������ھ�</h3>
+                        <h3 className="text-xl font-bold mb-2">非结构化数据挖掘</h3>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                          ��ǰ�޷�������¼����PDF��ͼƬ����ͬ������AI����˲�������������ҵ���ĳ�˯�ʲ���
+                          以前无法分析的录音、PDF、图片、合同，现在AI可以瞬间读懂。这是企业最大的沉睡资产。
                         </p>
                       </div>
                       <div>
                         <div className="text-blue-400 mb-4"><Users size={32} /></div>
-                        <h3 className="text-xl font-bold mb-2">���Ի������ģ��</h3>
+                        <h3 className="text-xl font-bold mb-2">个性化体验规模化</h3>
                         <p className="text-slate-400 text-sm leading-relaxed">
-                          ��ǰֻ�ܸ�VIP��1��1��������AI������ÿ���û���ӵ��ר����˽�̡����ʻ�������
+                          以前只能给VIP的1对1服务，现在AI可以让每个用户都拥有专属的私教、顾问或助理。
                         </p>
                       </div>
                    </div>
                 </section>
 
-                {/* 4. �����ȫר�� */}
+                {/* 4. 央国企安全专区 */}
                 <section id="security" className="scroll-mt-24">
                   <div className="border-l-4 border-red-600 pl-6 py-2 mb-8">
-                    <h2 className="text-3xl font-bold text-slate-900">�����������̸��ȫ��</h2>
+                    <h2 className="text-3xl font-bold text-slate-900">面对央国企：如何谈安全？</h2>
                     <p className="text-slate-600 mt-2">
-                      �������д�ͻ���һƱ������Ҫ�رܣ�Ҫ����������
+                      这是所有大客户的一票否决项。不要回避，要主动出击。
                     </p>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-8">
                      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                         <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                          <ShieldCheck className="text-emerald-600" /> ���ݲ����� (˽�л�)
+                          <ShieldCheck className="text-emerald-600" /> 数据不出域 (私有化)
                         </h3>
                         <p className="text-slate-600 text-sm mb-4">
-                          ����㲻�ܽ���SaaS�������ṩ<strong>˽�л����� (On-premise)</strong> ������ģ�Ͳ����������Լ��ķ��������������һ��Ҳ���ܣ����ݾ����������롣
+                          如果你不能接受SaaS，我们提供<strong>私有化部署 (On-premise)</strong> 方案。模型部署在你们自己的服务器机房里，网线一拔也能跑，数据绝对物理隔离。
                         </p>
                         <div className="bg-slate-100 p-3 rounded text-xs text-slate-500">
-                          �Ƽ�ģ�ͣ�Llama 3, Qwen (ͨ��ǧ�ʿ�Դ��), DeepSeek
+                          推荐模型：Llama 3, Qwen (通义千问开源版), DeepSeek
                         </div>
                      </div>
 
                      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                         <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                          <Lock className="text-blue-600" /> ������������ & ���
+                          <Lock className="text-blue-600" /> 敏感数据脱敏 & 审计
                         </h3>
                         <p className="text-slate-600 text-sm mb-4">
-                          �����ݴ���ģ��֮ǰ����һ��<strong>"��ȫ����"</strong>���Զ�ʶ���滻���ֻ��š�����֤��н�ʵ�������Ϣ��Masking��������¼���жԻ���־����ơ�
+                          在数据传给模型之前，加一层<strong>“安全网关”</strong>。自动识别并替换掉手机号、身份证、薪资等敏感信息（Masking），并记录所有对话日志供审计。
                         </p>
                      </div>
 
                      <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                         <h3 className="font-bold text-lg mb-4 flex items-center gap-2">
-                          <Server className="text-indigo-600" /> �Ŵ������������
+                          <Server className="text-indigo-600" /> 信创与国产化适配
                         </h3>
                         <p className="text-slate-600 text-sm mb-4">
-                          ���ǵķ�����ȫ����<strong>��Ϊ�N�� (Ascend)</strong> �������͹�������ϵͳ��������Ӣΰ���Կ������Ϲ��������ɿ�Ҫ��
+                          我们的方案完全适配<strong>华为昇腾 (Ascend)</strong> 算力卡和国产操作系统。不依赖英伟达显卡，符合国家自主可控要求。
                         </p>
                      </div>
                      
                      <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl p-6 border border-red-100 flex flex-col justify-center">
-                        <p className="font-bold text-red-800 text-lg mb-2">�����ܿ�ָ�� ??</p>
+                        <p className="font-bold text-red-800 text-lg mb-2">话术避坑指南 ⚠️</p>
                         <ul className="list-disc list-inside text-sm text-red-700 space-y-2">
-                           <li>? ��˵����ChatGPT����������</li>
-                           <li>? Ҫ˵���ù��������Ĵ�ģ�͵�����</li>
-                           <li>? ��˵�������ϴ��ƶ�ѵ����</li>
-                           <li>? Ҫ˵�����ݱ���΢�����ʲ��������ǡ�</li>
+                           <li>❌ 别说：用ChatGPT给你们做。</li>
+                           <li>✅ 要说：用国产备案的大模型底座。</li>
+                           <li>❌ 别说：数据上传云端训练。</li>
+                           <li>✅ 要说：数据本地微调，资产归属你们。</li>
                         </ul>
                      </div>
                   </div>
                 </section>
 
-                {/* 5. ������̳� */}
+                {/* 5. 工具与教程 */}
                 <section id="tools" className="scroll-mt-24">
                   <div className="flex items-center justify-between mb-8">
-                     <h2 className="text-3xl font-bold text-slate-900">����������⣺Cursor</h2>
-                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">��ѧ����</span>
+                     <h2 className="text-3xl font-bold text-slate-900">你的新武器库：Cursor</h2>
+                     <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">必学工具</span>
                   </div>
 
                   <div className="bg-slate-800 text-white rounded-2xl p-1 md:p-8 overflow-hidden">
                      <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div className="p-6">
-                           <h3 className="text-2xl font-bold mb-4">Ϊʲô�� Cursor?</h3>
+                           <h3 className="text-2xl font-bold mb-4">为什么是 Cursor?</h3>
                            <p className="text-slate-300 mb-6">
-                              Cursor �� VS Code �� AI �����档����������һ���༭����������������Ȼ���ԣ����ģ�ֱ��ָ����д���롢��Bug��������������һ����ҳ��
+                              Cursor 是 VS Code 的 AI 进化版。它不仅仅是一个编辑器，它允许你用自然语言（中文）直接指挥它写代码、修Bug、甚至从零生成一个网页。
                            </p>
                            <div className="space-y-4">
                               <div className="flex gap-4">
                                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">1</div>
                                  <div>
                                     <h4 className="font-bold">Chat with Code</h4>
-                                    <p className="text-sm text-slate-400">ѡ��һ�ο������Ĵ��룬�� <kbd className="bg-slate-700 px-1 rounded">Cmd+K</kbd> ������"���Ǹ���ģ�"</p>
+                                    <p className="text-sm text-slate-400">选中一段看不懂的代码，按 <kbd className="bg-slate-700 px-1 rounded">Cmd+K</kbd> 问它：“这是干嘛的？”</p>
                                  </div>
                               </div>
                               <div className="flex gap-4">
                                  <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold">2</div>
                                  <div>
                                     <h4 className="font-bold">Composer (Composer mode)</h4>
-                                    <p className="text-sm text-slate-400">�� <kbd className="bg-slate-700 px-1 rounded">Cmd+I</kbd> ��ȫ��ģʽ������"������һ��̰������Ϸ"�����ᴴ�������ļ���д����롣</p>
+                                    <p className="text-sm text-slate-400">按 <kbd className="bg-slate-700 px-1 rounded">Cmd+I</kbd> 打开全屏模式，输入“帮我做一个贪吃蛇游戏”，它会创建所有文件并写入代码。</p>
                                  </div>
                               </div>
                            </div>
                            <div className="mt-8 pt-8 border-t border-slate-700">
-                              <h4 className="font-bold mb-2 flex items-center gap-2"><BookOpen size={16}/> �Ƽ��̳�����</h4>
+                              <h4 className="font-bold mb-2 flex items-center gap-2"><BookOpen size={16}/> 推荐教程链接</h4>
                               <ul className="space-y-2 text-sm text-blue-300">
-                                 <li><a href="https://docs.cursor.com/" target="_blank" className="hover:underline flex items-center gap-1">? Cursor �ٷ��ĵ� (Ӣ��) <ExternalLink size={12}/></a></li>
-                                 <li><a href="https://search.bilibili.com/all?keyword=Cursor%20�̳�" target="_blank" className="hover:underline flex items-center gap-1">? Bilibili: 30�������� Cursor ����ȫ���� <ExternalLink size={12}/></a></li>
-                                 <li><a href="https://time.geekbang.org/search/result?q=AI%20�������" target="_blank" className="hover:underline flex items-center gap-1">? ����ʱ��: AI �������ʵս�� <ExternalLink size={12}/></a></li>
+                                 <li><a href="https://docs.cursor.com/" target="_blank" className="hover:underline flex items-center gap-1">👉 Cursor 官方文档 (英文) <ExternalLink size={12}/></a></li>
+                                 <li><a href="https://search.bilibili.com/all?keyword=Cursor%20教程" target="_blank" className="hover:underline flex items-center gap-1">👉 Bilibili: 30分钟上手 Cursor 开发全流程 <ExternalLink size={12}/></a></li>
+                                 <li><a href="https://time.geekbang.org/search/result?q=AI%20辅助编程" target="_blank" className="hover:underline flex items-center gap-1">👉 极客时间: AI 辅助编程实战课 <ExternalLink size={12}/></a></li>
                               </ul>
                            </div>
                         </div>
@@ -410,10 +410,10 @@
                               <span className="ml-4 text-slate-500">index.html</span>
                            </div>
                            <div className="text-slate-400">
-                              <span className="text-purple-400">User:</span> ��������һ������֤���ܵĵ�¼������Ҫ��Tailwind CSS������ࡣ
+                              <span className="text-purple-400">User:</span> 帮我生成一个带验证功能的登录表单，要用Tailwind CSS，风格简洁。
                            </div>
                            <div className="mt-4 text-blue-400">
-                              <span className="text-green-400">Cursor:</span> �õģ�����Ϊ�����ɵĴ���...
+                              <span className="text-green-400">Cursor:</span> 好的，这是为你生成的代码...
                            </div>
                            <div className="mt-4 pl-4 border-l-2 border-slate-700 text-slate-300">
                               <span className="text-pink-400">&lt;form</span> <span className="text-yellow-300">className</span>=<span className="text-green-300">"max-w-md mx-auto mt-10 p-6 bg-white rounded-xl shadow-md"</span><span className="text-pink-400">&gt;</span><br/>
@@ -427,51 +427,51 @@
                   </div>
                 </section>
 
-                {/* 6. ѧϰͼ�� */}
+                {/* 6. 学习图谱 */}
                 <section id="roadmap" className="pb-16">
-                  <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">ҵ����Ա AI ѧϰͼ��</h2>
+                  <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">业务人员 AI 学习图谱</h2>
                   <div className="grid gap-6 md:grid-cols-4">
                      {/* Step 1 */}
                      <div className="bg-white p-6 rounded-xl border-t-4 border-blue-500 shadow-sm">
-                        <div className="text-blue-500 font-bold mb-2">Stage 1: ����ɨä</div>
-                        <h3 className="font-bold text-lg mb-4">����"����"</h3>
+                        <div className="text-blue-500 font-bold mb-2">Stage 1: 概念扫盲</div>
+                        <h3 className="font-bold text-lg mb-4">理解“概率”</h3>
                         <ul className="text-sm text-slate-600 space-y-2 list-disc list-inside">
-                           <li>ʲô�� Token & Context Window</li>
-                           <li>Temperature (�¶�) ����������</li>
-                           <li>Prompt Engineering ����ԭ��</li>
+                           <li>什么是 Token & Context Window</li>
+                           <li>Temperature (温度) 参数的作用</li>
+                           <li>Prompt Engineering 基础原则</li>
                         </ul>
                      </div>
 
                      {/* Step 2 */}
                      <div className="bg-white p-6 rounded-xl border-t-4 border-indigo-500 shadow-sm">
-                        <div className="text-indigo-500 font-bold mb-2">Stage 2: ��������</div>
-                        <h3 className="font-bold text-lg mb-4">����"ָ��"</h3>
+                        <div className="text-indigo-500 font-bold mb-2">Stage 2: 工具上手</div>
+                        <h3 className="font-bold text-lg mb-4">掌握“指令”</h3>
                         <ul className="text-sm text-slate-600 space-y-2 list-disc list-inside">
-                           <li>����ʹ�� ChatGPT/Claude/DeepSeek</li>
-                           <li>ʹ�� Cursor ���ɼ򵥵���ҳ/�ű�</li>
-                           <li>�� Gamma ���� PPT</li>
+                           <li>熟练使用 ChatGPT/Claude/DeepSeek</li>
+                           <li>使用 Cursor 生成简单的网页/脚本</li>
+                           <li>用 Gamma 生成 PPT</li>
                         </ul>
                      </div>
 
                      {/* Step 3 */}
                      <div className="bg-white p-6 rounded-xl border-t-4 border-purple-500 shadow-sm">
-                        <div className="text-purple-500 font-bold mb-2">Stage 3: ҵ��ܹ�</div>
-                        <h3 className="font-bold text-lg mb-4">����"���"</h3>
+                        <div className="text-purple-500 font-bold mb-2">Stage 3: 业务架构</div>
+                        <h3 className="font-bold text-lg mb-4">理解“落地”</h3>
                         <ul className="text-sm text-slate-600 space-y-2 list-disc list-inside">
-                           <li>RAG �Ĺ���ԭ���������</li>
-                           <li>�������ҵ�񳡾��Ƿ��ʺ� AI</li>
-                           <li>Coze/Dify �������</li>
+                           <li>RAG 的工作原理与局限性</li>
+                           <li>如何评估业务场景是否适合 AI</li>
+                           <li>Coze/Dify 工作流搭建</li>
                         </ul>
                      </div>
 
                      {/* Step 4 */}
                      <div className="bg-white p-6 rounded-xl border-t-4 border-pink-500 shadow-sm">
-                        <div className="text-pink-500 font-bold mb-2">Stage 4: ��ҵ����</div>
-                        <h3 className="font-bold text-lg mb-4">����"���"</h3>
+                        <div className="text-pink-500 font-bold mb-2">Stage 4: 商业洞察</div>
+                        <h3 className="font-bold text-lg mb-4">引领“变革”</h3>
                         <ul className="text-sm text-slate-600 space-y-2 list-disc list-inside">
-                           <li>AI ʱ������ҵģʽ���</li>
-                           <li>�����ʲ���������Ϲ�</li>
-                           <li>��֯�ܹ������Ӧ AI ������</li>
+                           <li>AI 时代的商业模式变革</li>
+                           <li>数据资产的治理与合规</li>
+                           <li>组织架构如何适应 AI 生产力</li>
                         </ul>
                      </div>
                   </div>
@@ -484,10 +484,10 @@
                 <div className="max-w-7xl mx-auto px-4 text-center">
                   <p className="mb-4 text-white font-semibold">AI Business Combat Manual</p>
                   <p className="text-sm">
-                    ��ҳ������ڲ���ѵʹ�á�AI �����������죬�뱣�ֳ���ѧϰ����̬��
+                    本页面仅供内部培训使用。AI 技术迭代极快，请保持持续学习的心态。
                   </p>
                   <div className="mt-8 pt-8 border-t border-slate-800 text-xs">
-                    ? 2025 AI-EAS COE Team
+                    © 2025 AI-EAS COE Team
                   </div>
                 </div>
               </footer>
@@ -500,4 +500,3 @@
     </script>
 </body>
 </html>
-
