@@ -4,11 +4,9 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
-import ShareIcon from "../icons/share.svg";
 import GeminiIcon from "../icons/llm-icons/gemini.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
-import MaskIcon from "../icons/mask.svg";
 import McpIcon from "../icons/mcp.svg";
 import DragIcon from "../icons/drag.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
@@ -337,13 +335,13 @@ export function SideBar(props: { className?: string }) {
             </div>
             <div className={styles["sidebar-action"]}>
               <a
-                href="https://gemini.google.com/share/a75467b06799"
+                href="/ai-business.html"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <IconButton
-                  aria="Gemini Share"
-                  icon={<ShareIcon />}
+                  aria="Learn AI"
+                  text="AI"
                   shadow
                 />
               </a>
