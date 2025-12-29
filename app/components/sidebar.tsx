@@ -233,11 +233,10 @@ export function SideBar(props: { className?: string }) {
   const [mcpEnabled, setMcpEnabled] = useState(false);
 
   useEffect(() => {
-    // 检�? MCP 是否启用
+    // Check if MCP is enabled
     const checkMcpStatus = async () => {
       const enabled = await isMcpEnabled();
       setMcpEnabled(enabled);
-      console.log("[SideBar] MCP enabled:", enabled);
     };
     checkMcpStatus();
   }, []);
