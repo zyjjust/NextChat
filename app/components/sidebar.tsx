@@ -4,6 +4,7 @@ import styles from "./home.module.scss";
 
 import { IconButton } from "./button";
 import SettingsIcon from "../icons/settings.svg";
+import ShareIcon from "../icons/share.svg";
 import GeminiIcon from "../icons/llm-icons/gemini.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
@@ -232,7 +233,7 @@ export function SideBar(props: { className?: string }) {
   const [mcpEnabled, setMcpEnabled] = useState(false);
 
   useEffect(() => {
-    // 检查 MCP 是否启用
+    // 检�? MCP 是否启用
     const checkMcpStatus = async () => {
       const enabled = await isMcpEnabled();
       setMcpEnabled(enabled);
@@ -334,6 +335,19 @@ export function SideBar(props: { className?: string }) {
                   shadow
                 />
               </Link>
+            </div>
+            <div className={styles["sidebar-action"]}>
+              <a
+                href="https://gemini.google.com/share/a75467b06799"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconButton
+                  aria="Gemini Share"
+                  icon={<ShareIcon />}
+                  shadow
+                />
+              </a>
             </div>
           </>
         }
