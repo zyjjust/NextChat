@@ -31,8 +31,8 @@ import clsx from "clsx";
 import { isMcpEnabled } from "../mcp/actions";
 
 const DISCOVERY = [
-  { name: Locale.Plugin.Name, path: Path.Plugins },
-  { name: "Stable Diffusion", path: Path.Sd },
+  // { name: Locale.Plugin.Name, path: Path.Plugins },  // 屏蔽插件功能
+  // { name: "Stable Diffusion", path: Path.Sd },  // 屏蔽 Stable Diffusion 功能
   { name: Locale.SearchChat.Page.Title, path: Path.SearchChat },
 ];
 
