@@ -66,7 +66,7 @@ export const DEFAULT_CONFIG = {
   modelConfig: {
     model: "gemini-2.0-flash" as ModelType,
     providerName: "Google" as ServiceProvider,
-    temperature: 0.5,
+    temperature: 1,
     top_p: 1,
     max_tokens: 4000,
     presence_penalty: 0,
@@ -101,7 +101,7 @@ export const DEFAULT_CONFIG = {
       endpoint: "",
       deployment: "",
     },
-    temperature: 0.9,
+    temperature: 1,
     voice: "alloy" as Voice,
   },
 };
