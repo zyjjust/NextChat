@@ -123,7 +123,11 @@ export async function parseResumeWithAI(
         },
     });
 
-    return JSON.parse(response.text);
+    const text = response.text;
+    if (!text) {
+        throw new Error("AI 返回的简历解析结果为空");
+    }
+    return JSON.parse(text);
 }
 
 /**
@@ -199,7 +203,10 @@ export async function parseJDWithAI(content: string): Promise<JDParsedInfo[]> {
     });
 
     try {
-        const text = response.text.trim();
+        const text = response.text?.trim();
+        if (!text) {
+            return [];
+        }
         const parsed = JSON.parse(text);
         return Array.isArray(parsed) ? parsed : [];
     } catch (e) {
@@ -356,7 +363,11 @@ export async function matchResumeToJDs(
         });
 
         console.log("AI Match Response:", response.text);
-        const result = JSON.parse(response.text);
+        const responseText = response.text;
+        if (!responseText) {
+            throw new Error("AI 返回的匹配结果为空");
+        }
+        const result = JSON.parse(responseText);
 
         // 补全 ID 映射确保前端能正确对应
         result.resumeId = resume.id;
