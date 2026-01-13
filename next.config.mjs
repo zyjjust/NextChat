@@ -1,4 +1,9 @@
 import webpack from "webpack";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const mode = process.env.BUILD_MODE ?? "standalone";
 console.log("[Next] build mode", mode);
@@ -22,6 +27,18 @@ const nextConfig = {
 
     config.resolve.fallback = {
       child_process: false,
+    };
+
+    // 强制将 @modelcontextprotocol/sdk 嵌套的 zod 解析到项目顶层的 zod
+    // 解决 "Cannot get final name for export 'defaultErrorMap'" 错误
+    const zodPath = path.resolve(__dirname, "node_modules/zod");
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // 处理 zod/v3 子路径导出
+      "zod/v3/errors": zodPath,
+      "zod/v3": zodPath,
+      // 确保所有 zod 引用都指向同一版本
+      zod: zodPath,
     };
 
     return config;
