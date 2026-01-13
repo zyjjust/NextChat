@@ -23,10 +23,9 @@ if (process.env.HTTPS_PROXY) {
  * 获取随机的 AI 实例，支持负载均衡 (服务端版本)
  */
 function getAI(): GoogleGenAI {
-  // 优先使用服务端环境变量，如果没有则回退到 NEXT_PUBLIC_ (仅作兼容，实际上应该用服务端变量)
-  const serverKey = process.env.GEMINI_API_KEY;
-  const publicKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  const keysString = serverKey || publicKey || "";
+  // 用户指定仅使用 NEXT_PUBLIC_GEMINI_API_KEY 作为密钥来源
+  // 支持多 Key 轮询 (逗号分隔)
+  const keysString = process.env.NEXT_PUBLIC_GEMINI_API_KEY || "";
 
   // Debug logging removed
   const keys = keysString
