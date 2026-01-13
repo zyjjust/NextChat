@@ -82,6 +82,13 @@ const McpMarketPage = dynamic(
   },
 );
 
+const ResumeMatchPage = dynamic(
+  async () => (await import("../resume-match/components/ResumeMatchApp")).ResumeMatchApp,
+  {
+    loading: () => <Loading noLogo />,
+  },
+);
+
 export function useSwitchTheme() {
   const config = useAppConfig();
 
@@ -181,6 +188,10 @@ function Screen() {
       </Routes>
     );
   }
+  // Resume Match 独立全屏页面
+  if (location.pathname === Path.ResumeMatch) {
+    return <ResumeMatchPage />;
+  }
   const renderContent = () => {
     if (isAuth) return <AuthPage />;
     if (isSd) return <Sd />;
@@ -202,6 +213,7 @@ function Screen() {
             <Route path={Path.Chat} element={<Chat />} />
             <Route path={Path.Settings} element={<Settings />} />
             <Route path={Path.McpMarket} element={<McpMarketPage />} />
+            <Route path={Path.ResumeMatch} element={<ResumeMatchPage />} />
           </Routes>
         </WindowContent>
       </>

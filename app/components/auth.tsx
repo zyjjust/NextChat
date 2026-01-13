@@ -77,6 +77,7 @@ export function AuthPage() {
         }}
       />
 
+      {/* 屏蔽 API Key 输入区域
       {!accessStore.hideUserApiKey ? (
         <>
           <div className={styles["auth-tips"]}>{Locale.Auth.SubTips}</div>
@@ -108,6 +109,7 @@ export function AuthPage() {
           />
         </>
       ) : null}
+      */}
 
       <div className={styles["auth-actions"]}>
         <IconButton

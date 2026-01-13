@@ -1,0 +1,938 @@
+// 变量定义 (模拟 Tailwind 颜色)
+$slate-50: #f8fafc;
+$slate-100: #f1f5f9;
+$slate-200: #e2e8f0;
+$slate-300: #cbd5e1;
+$slate-400: #94a3b8;
+$slate-500: #64748b;
+$slate-600: #475569;
+$slate-700: #334155;
+$slate-800: #1e293b;
+$slate-900: #0f172a;
+
+$indigo-50: #eef2ff;
+$indigo-100: #e0e7ff;
+$indigo-200: #c7d2fe;
+$indigo-400: #818cf8;
+$indigo-500: #6366f1;
+$indigo-600: #4f46e5;
+$indigo-700: #4338ca;
+
+$purple-50: #faf5ff;
+$purple-100: #f3e8ff;
+$purple-400: #c084fc;
+$purple-500: #a855f7;
+$purple-600: #9333ea;
+$purple-700: #7e22ce;
+
+$emerald-50: #ecfdf5;
+$emerald-100: #d1fae5;
+$emerald-400: #34d399;
+$emerald-500: #10b981;
+$emerald-600: #059669;
+
+$rose-50: #fff1f2;
+$rose-100: #ffe4e6;
+$rose-400: #fb7185;
+$rose-500: #f43f5e;
+$rose-600: #e11d48;
+
+$amber-50: #fffbeb;
+$amber-400: #fbbf24;
+$amber-500: #f59e0b;
+$amber-600: #d97706;
+
+// 通用样式
+.container {
+    min-height: 100vh;
+    height: 100vh; // 填满视口
+    width: 100%; // 自适应宽度
+    overflow-y: auto; // 允许垂直滚动
+    background-color: $slate-50;
+    font-family: 'Noto Sans', sans-serif;
+    color: $slate-900;
+}
+
+.main-content {
+    max-width: 80rem; // max-w-7xl
+    margin: 0 auto;
+    padding: 2.5rem 1rem; // py-10 px-4
+    display: flex;
+    flex-direction: column;
+    gap: 4rem; // space-y-16
+}
+
+// Header 组件样式
+.header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid $slate-200;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    .inner {
+        max-width: 80rem;
+        margin: 0 auto;
+        padding: 0 1rem;
+        height: 4rem; // h-16
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo-box {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: $indigo-600;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            background: linear-gradient(to right, $indigo-600, $purple-600);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+
+        button {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: $slate-600;
+            transition: color 0.2s;
+
+            &:first-child:hover {
+                color: $indigo-600;
+            }
+
+            &:last-child:hover {
+                color: $emerald-600;
+            }
+        }
+    }
+
+    .model-select {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: $slate-500;
+            white-space: nowrap;
+        }
+
+        select {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            border-radius: 0.5rem;
+            border: 1px solid $slate-200;
+            background-color: white;
+            color: $slate-700;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
+
+            &:hover {
+                border-color: $slate-300;
+            }
+
+            &:focus {
+                border-color: $indigo-500;
+                box-shadow: 0 0 0 2px $indigo-100;
+            }
+        }
+    }
+}
+
+// FileUpload 组件样式
+.file-upload {
+    border: 2px dashed $slate-300;
+    border-radius: 0.75rem; // rounded-xl
+    padding: 2rem;
+    background-color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: $indigo-500;
+        background-color: $indigo-50;
+
+        .icon-wrapper {
+            background-color: $indigo-100;
+            color: $indigo-600;
+        }
+    }
+
+    .icon-wrapper {
+        width: 4rem;
+        height: 4rem;
+        background-color: $slate-100;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        color: $slate-500;
+        transition: colors 0.2s;
+
+        svg {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+
+    h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $slate-800;
+    }
+
+    p {
+        font-size: 0.875rem;
+        color: $slate-500;
+        margin-top: 0.25rem;
+    }
+}
+
+// Engine Card
+.engine-card {
+    background-color: white;
+    border-radius: 2rem; // rounded-[32px]
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); // shadow-xl
+    border: 1px solid $slate-100;
+    overflow: hidden;
+
+    .engine-header {
+        background-color: $slate-900;
+        color: white;
+        padding: 3rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+
+        h1 {
+            position: relative;
+            z-index: 10;
+            font-size: 2.25rem; // text-4xl
+            font-weight: 900;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            position: relative;
+            z-index: 10;
+            color: $slate-400;
+            font-size: 1.125rem; // text-lg
+            max-width: 42rem;
+            margin: 0 auto;
+
+            .highlight-indigo {
+                color: #818cf8;
+                font-weight: bold;
+            }
+
+            // indigo-400
+            .highlight-purple {
+                color: #c084fc;
+                font-weight: bold;
+            }
+
+            // purple-400
+        }
+    }
+
+    .engine-body {
+        display: grid;
+
+        // grid-template-columns set via media queries if possible, or defaulting to stack on mobile
+        @media (min-width: 1024px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .section {
+            padding: 2rem;
+
+            &.left {
+                background-color: rgba($slate-50, 0.3);
+            }
+
+            &.right {
+                background-color: white;
+            }
+
+            .section-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+
+                .title-group {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+
+                    .number-badge {
+                        width: 2rem;
+                        height: 2rem;
+                        border-radius: 0.5rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: bold;
+
+                        &.indigo {
+                            background-color: $indigo-100;
+                            color: $indigo-600;
+                        }
+
+                        &.purple {
+                            background-color: $purple-100;
+                            color: $purple-600;
+                        }
+                    }
+
+                    h2 {
+                        font-size: 1.25rem;
+                        font-weight: 700;
+                        color: $slate-800;
+                    }
+                }
+            }
+
+            .list-container {
+                background-color: white;
+                border: 1px solid $slate-200;
+                border-radius: 1rem;
+                max-height: 450px;
+                min-height: 200px;
+                overflow-y: auto;
+                padding: 0.5rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.375rem;
+                position: relative; // For empty state absolute positioning
+
+                .empty-state {
+                    position: absolute;
+                    inset: 0; // top right bottom left 0
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    color: $slate-400;
+                    padding: 2rem;
+                    text-align: center;
+
+                    svg {
+                        width: 3rem;
+                        height: 3rem;
+                        margin-bottom: 0.75rem;
+                        color: $slate-300;
+                    }
+                }
+
+                .list-item {
+                    padding: 0.625rem;
+                    border-radius: 0.75rem; // rounded-xl
+                    border: 2px solid $slate-100;
+                    background-color: white;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    position: relative;
+
+                    &:hover {
+                        border-color: $slate-200;
+                    }
+
+                    &.selected {
+                        &.indigo {
+                            border-color: $indigo-500;
+                            background-color: rgba($indigo-50, 0.3);
+                        }
+
+                        &.purple {
+                            border-color: $purple-600;
+                            background-color: rgba($purple-50, 0.3);
+                        }
+                    }
+
+                    .item-content {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+
+                        .info {
+                            flex: 1;
+                            min-width: 0; // Allow truncation
+
+                            h3 {
+                                font-weight: 700;
+                                color: $slate-900;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+
+                            p {
+                                font-size: 0.75rem;
+                                color: $slate-400;
+                                font-family: monospace;
+                            }
+                        }
+
+                        .check-mark {
+                            width: 1.25rem;
+                            height: 1.25rem;
+                            border-radius: 50%;
+                            border: 2px solid $slate-200;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-shrink: 0;
+
+                            &.selected-indigo {
+                                background: $indigo-600;
+                                border-color: $indigo-600;
+                                color: white;
+                            }
+
+                            &.selected-purple {
+                                background: $purple-600;
+                                border-color: $purple-600;
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .action-bar {
+        background-color: $slate-50;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid $slate-100;
+
+        .start-btn {
+            position: relative;
+            padding: 1.25rem 6rem;
+            background-color: $slate-900;
+            color: white;
+            font-weight: 900;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            font-size: 1.125rem;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                transform: none;
+                cursor: not-allowed;
+            }
+
+            span {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+        }
+    }
+}
+
+// Result Report
+.report-section {
+    padding-bottom: 5rem;
+
+    .result-card {
+        background-color: white;
+        border-radius: 1.5rem; // rounded-[24px]
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        border: 1px solid $slate-200;
+        overflow: hidden;
+        transition: all 0.3s;
+        margin-bottom: 1.5rem;
+
+        &:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background-color 0.2s;
+
+            &.expanded {
+                background-color: rgba($slate-50, 0.8);
+                border-bottom: 1px solid $slate-100;
+            }
+
+            .avatar {
+                width: 3.5rem;
+                height: 3.5rem;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 900;
+                font-size: 1.5rem;
+                background-color: $slate-100;
+                color: $slate-500;
+
+                &.active {
+                    background-color: white;
+                    border: 1px solid $indigo-100;
+                    color: $indigo-600;
+                }
+            }
+        }
+
+        .matches-container {
+            padding: 2.5rem;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+
+            .match-item {
+                position: relative;
+                padding: 2rem;
+                border-radius: 2rem;
+                border: 2px solid $slate-100;
+                background-color: rgba($slate-50, 0.3);
+
+                &.best-match {
+                    border-color: $indigo-500;
+                    background-color: rgba($indigo-50, 0.1);
+                }
+
+                .score-circle {
+                    width: 7rem;
+                    height: 7rem;
+                    border-radius: 50%;
+                    border: 6px solid;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 2.25rem;
+                    font-weight: 900;
+                    font-style: italic;
+                    background-color: white;
+
+                    &.high {
+                        border-color: $emerald-500;
+                    }
+
+                    &.mid {
+                        border-color: $amber-400;
+                    }
+
+                    &.low {
+                        border-color: $rose-400;
+                    }
+                }
+
+                .analysis-grid {
+                    display: grid;
+                    gap: 1.5rem;
+
+                    @media (min-width: 768px) {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+
+                    h4 {
+                        font-size: 0.65rem;
+                        font-weight: 900;
+                        text-transform: uppercase;
+                        border-bottom: 1px solid;
+                        padding-bottom: 0.5rem;
+                        margin-bottom: 0.75rem;
+                        letter-spacing: 0.1em;
+
+                        &.pros {
+                            color: $emerald-600;
+                            border-color: $emerald-100;
+                        }
+
+                        &.cons {
+                            color: $rose-500;
+                            border-color: $rose-100;
+                        }
+
+                        &.plan {
+                            color: $indigo-600;
+                            border-color: $indigo-100;
+                        }
+                    }
+
+                    ul {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+
+                        li {
+                            font-size: 0.75rem;
+                            color: $slate-600;
+                            display: flex;
+                            gap: 0.5rem;
+                            line-height: 1.4;
+                            margin-bottom: 0.5rem;
+
+                            .dot {
+                                width: 0.25rem;
+                                height: 0.25rem;
+                                border-radius: 50%;
+                                margin-top: 0.35rem;
+                                flex-shrink: 0;
+
+                                &.pros {
+                                    background-color: $emerald-400;
+                                }
+
+                                &.cons {
+                                    background-color: $rose-400;
+                                }
+
+                                &.plan {
+                                    background-color: $indigo-400;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// 辅助类
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: $indigo-600;
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(165, 180, 252, 0.4);
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $indigo-700;
+    }
+}
+
+.btn-secondary {
+    @extend .btn-primary;
+    background-color: $purple-600;
+    box-shadow: 0 10px 15px -3px rgba(216, 180, 254, 0.4);
+
+    &:hover {
+        background-color: $purple-700;
+    }
+
+    // Assuming $purple-700 exists or just darken
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $slate-200;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: $slate-300;
+    }
+}
+
+// Toolbar & Buttons Substitutes for Tailwind
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.text-btn {
+    font-size: 0.75rem; // text-xs
+    font-weight: 700;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+
+    &.indigo {
+        color: $indigo-600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &.purple {
+        color: $purple-600;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &.rose {
+        color: $rose-500;
+
+        &:hover {
+            color: $rose-600;
+            text-decoration: underline;
+        }
+    }
+}
+
+// Progress Card Styles (匹配参考图)
+.progress-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.progress-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $slate-800;
+}
+
+.progress-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid $indigo-200;
+    border-top-color: $indigo-600;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.progress-count {
+    font-size: 1.125rem;
+    font-weight: 900;
+    color: $indigo-600;
+
+    span {
+        color: $slate-400;
+    }
+}
+
+.progress-bar-container {
+    height: 6px;
+    background: $slate-100;
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, $indigo-500, $purple-500);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-around;
+    background: $slate-50;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+}
+
+.stat-item {
+    text-align: center;
+
+    .stat-value {
+        font-size: 1rem;
+        font-weight: 700;
+        color: $slate-800;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        color: $indigo-500;
+        margin-top: 0.25rem;
+    }
+}
+
+// Top-level Score Circle (避免 CSS Modules 嵌套问题)
+.score-circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    border: 4px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 900;
+    background-color: white;
+    flex-shrink: 0;
+
+    &.high {
+        border-color: $emerald-500;
+        color: $emerald-600;
+    }
+
+    &.mid {
+        border-color: $amber-400;
+        color: $amber-600;
+    }
+
+    &.low {
+        border-color: $rose-400;
+        color: $rose-600;
+    }
+}
+
+// Report Section Header
+.report-header {
+    background: $slate-800;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.report-title {
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-bottom: 0.25rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+        color: $slate-400;
+    }
+}
+
+.report-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.report-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .stat-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+
+        &.time {
+            background: linear-gradient(135deg, $indigo-500, $purple-500);
+        }
+
+        &.token {
+            background: linear-gradient(135deg, $amber-400, $amber-500);
+        }
+
+        &.cost {
+            background: linear-gradient(135deg, $emerald-400, $emerald-500);
+        }
+    }
+
+    .stat-info {
+        .stat-label {
+            font-size: 0.65rem;
+            color: $slate-400;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+    }
+}

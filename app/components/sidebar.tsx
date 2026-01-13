@@ -31,9 +31,8 @@ import clsx from "clsx";
 import { isMcpEnabled } from "../mcp/actions";
 
 const DISCOVERY = [
-  // { name: Locale.Plugin.Name, path: Path.Plugins },  // 屏蔽插件功能
-  // { name: "Stable Diffusion", path: Path.Sd },  // 屏蔽 Stable Diffusion 功能
   { name: Locale.SearchChat.Page.Title, path: Path.SearchChat },
+  { name: "简历匹配", path: Path.ResumeMatch },
 ];
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
@@ -292,12 +291,17 @@ export function SideBar(props: { className?: string }) {
                 return {
                   title: item.name,
                   value: item.path,
+                  icon: <GeminiIcon style={{ width: 20, height: 20 }} />,
                 };
               }),
             ]}
             onClose={() => setshowDiscoverySelector(false)}
             onSelection={(s) => {
-              navigate(s[0], { state: { fromHome: true } });
+              if (s[0] === Path.ResumeMatch) {
+                window.open("#" + Path.ResumeMatch, "_blank");
+              } else {
+                navigate(s[0], { state: { fromHome: true } });
+              }
             }}
           />
         )}
