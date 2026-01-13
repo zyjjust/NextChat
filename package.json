@@ -92,7 +92,9 @@
     "webpack": "^5.88.1"
   },
   "resolutions": {
-    "lint-staged/yaml": "^2.2.2"
+    "lint-staged/yaml": "^2.2.2",
+    "zod": "^3.24.1",
+    "@modelcontextprotocol/sdk/**/zod": "^3.24.1"
   },
   "packageManager": "yarn@1.22.19"
 }
