@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-imports */
+/* eslint-disable */
 export const OWNER = "ChatGPTNextWeb";
 export const REPO = "ChatGPT-Next-Web";
 export const REPO_URL = `https://github.com/${OWNER}/${REPO}`;

@@ -2,9 +2,9 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Header } from './Header';
-import { Resume, JobDescription, MatchResult, UsageMetrics, MatchModelType } from '../types';
+import { Resume, JobDescription, MatchResult, UsageMetrics, MatchModelType, BatchJDInput } from '../types';
 import { parseFile } from '../services/fileParser';
-import { parseResumeWithAI, parseJDWithAI, parseJDBatchWithAI, matchResumeToJDs, BatchJDInput } from '../services/geminiService';
+import { parseResumeWithAI, parseJDWithAI, parseJDBatchWithAI, matchResumeToJDs } from '../services/geminiService';
 import { ResumeStorage, JDStorage } from '../services/storageService';
 import styles from '../resume-match.module.scss';
 import clsx from 'clsx';
