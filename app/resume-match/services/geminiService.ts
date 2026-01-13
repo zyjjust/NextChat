@@ -216,6 +216,111 @@ export async function parseJDWithAI(content: string): Promise<JDParsedInfo[]> {
 }
 
 /**
+ * 批量解析岗位需求（Excel 导入专用）
+ * 将多个岗位信息合并成一次 API 调用，大幅减少请求次数
+ */
+export interface BatchJDInput {
+    rowIndex: number;      // Excel 行号，用于结果匹配
+    jobCode: string;       // 需求编号
+    title: string;         // 岗位名称
+    rawContent: string;    // 原始 JD 内容
+    keyClarification: string; // 重点澄清
+}
+
+export async function parseJDBatchWithAI(inputs: BatchJDInput[]): Promise<(JDParsedInfo & { rowIndex: number })[]> {
+    if (inputs.length === 0) return [];
+
+    const ai = getAI();
+
+    // 构造批量输入的 JSON 格式
+    const batchInput = inputs.map((item, idx) => ({
+        rowIndex: item.rowIndex,
+        jobCode: item.jobCode,
+        title: item.title,
+        rawContent: item.rawContent,
+        keyClarification: item.keyClarification
+    }));
+
+    const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `你是一个专业的HR助手。你需要批量解析以下多个岗位需求。
+
+【输入格式说明】：
+我会给你一个 JSON 数组，每个元素代表一个岗位需求。每个元素包含：
+- rowIndex: 行号（用于结果匹配，必须原样返回）
+- jobCode: 需求编号（如果为空，请从 rawContent 中尝试提取）
+- title: 岗位名称（如果为空，请从 rawContent 中提取）
+- rawContent: 原始 JD 信息
+- keyClarification: 重点澄清内容
+
+【输出要求】：
+返回一个 JSON 数组，每个元素对应一个岗位，包含：
+- rowIndex: 原样返回输入的行号
+- jobCode: 需求编号
+- title: 岗位名称
+- keyClarification: 重点澄清（优先使用输入的值，如果输入为空则从 rawContent 提取）
+- description: 职位整体描述
+- responsibilities: 岗位职责数组
+- requirements: 任职要求对象 { education, skills[], experience, abilities[] }
+
+【待解析的岗位列表】：
+${JSON.stringify(batchInput, null, 2)}`,
+        config: {
+            responseMimeType: "application/json",
+            responseSchema: {
+                type: Type.ARRAY,
+                items: {
+                    type: Type.OBJECT,
+                    properties: {
+                        rowIndex: { type: Type.NUMBER },
+                        jobCode: { type: Type.STRING },
+                        title: { type: Type.STRING },
+                        keyClarification: { type: Type.STRING },
+                        description: { type: Type.STRING },
+                        responsibilities: {
+                            type: Type.ARRAY,
+                            items: { type: Type.STRING },
+                        },
+                        requirements: {
+                            type: Type.OBJECT,
+                            properties: {
+                                education: { type: Type.STRING },
+                                skills: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                experience: { type: Type.STRING },
+                                abilities: { type: Type.ARRAY, items: { type: Type.STRING } },
+                            },
+                            required: ["education", "skills", "experience", "abilities"],
+                        },
+                    },
+                    required: [
+                        "rowIndex",
+                        "jobCode",
+                        "title",
+                        "keyClarification",
+                        "description",
+                        "responsibilities",
+                        "requirements",
+                    ],
+                },
+            },
+        },
+    });
+
+    try {
+        const text = response.text?.trim();
+        if (!text) {
+            console.error("批量 JD 解析返回为空");
+            return [];
+        }
+        const parsed = JSON.parse(text);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+        console.error("批量 JD 解析失败:", e);
+        return [];
+    }
+}
+
+/**
  * 2. 简历与岗位匹配分析
  * 任务类型：复杂推理与分析 (Complex Text Tasks)
  * 模型选择：gemini-3-pro-preview

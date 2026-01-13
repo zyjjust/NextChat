@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Header } from './Header';
 import { Resume, JobDescription, MatchResult, UsageMetrics, MatchModelType } from '../types';
 import { parseFile } from '../services/fileParser';
-import { parseResumeWithAI, parseJDWithAI, matchResumeToJDs } from '../services/geminiService';
+import { parseResumeWithAI, parseJDWithAI, parseJDBatchWithAI, matchResumeToJDs, BatchJDInput } from '../services/geminiService';
 import { ResumeStorage, JDStorage } from '../services/storageService';
 import styles from '../resume-match.module.scss';
 import clsx from 'clsx';
@@ -152,36 +152,14 @@ export const ResumeMatchApp: React.FC = () => {
                     const worksheet = workbook.Sheets[firstSheetName];
                     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-                    // 辅助函数：延迟
-                    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-                    // 辅助函数：带重试的 API 调用
-                    const parseWithRetry = async (content: string, maxRetries = 2): Promise<any[]> => {
-                        for (let attempt = 0; attempt <= maxRetries; attempt++) {
-                            try {
-                                return await parseJDWithAI(content);
-                            } catch (err) {
-                                console.warn(`[JD Parse] Attempt ${attempt + 1} failed:`, err);
-                                if (attempt < maxRetries) {
-                                    await delay(1000 * (attempt + 1)); // 递增延迟：1s, 2s
-                                } else {
-                                    throw err;
-                                }
-                            }
-                        }
-                        return [];
-                    };
-
-                    // 从第二行开始（假设第一行是标题）
-                    const totalRows = jsonData.length - 1;
-                    let processedCount = 0;
-                    let errorCount = 0;
+                    // 第一步：收集所有有效行数据
+                    const batchInputs: BatchJDInput[] = [];
+                    const rowMetadata: { rowIndex: number; jdId: string; title: string; rawContent: string; keyClarification: string }[] = [];
 
                     for (let i = 1; i < jsonData.length; i++) {
                         const row = jsonData[i] as any[];
                         if (!row || row.length === 0) continue;
 
-                        // 拼接前4列作为原始 JD 信息
                         const rawJDInfo = row.slice(0, 4).filter(Boolean).join('\n');
                         const keyClarification = row[4] ? String(row[4]) : '';
 
@@ -189,57 +167,90 @@ export const ResumeMatchApp: React.FC = () => {
                             const jdId = (row[0] && String(row[0]).trim()) || Math.random().toString(36).substr(2, 9);
                             const title = (row[1] && String(row[1]).trim()) || '未命名需求';
 
-                            try {
-                                // 添加请求间隔，避免 API 限流
-                                if (processedCount > 0) {
-                                    await delay(500);
-                                }
+                            batchInputs.push({
+                                rowIndex: i,
+                                jobCode: jdId,
+                                title: title,
+                                rawContent: rawJDInfo,
+                                keyClarification: keyClarification
+                            });
 
-                                const parsedList = await parseWithRetry(`原始信息：\n${rawJDInfo}\n\n重点澄清内容：\n${keyClarification}`);
-
-                                if (parsedList && parsedList.length > 0) {
-                                    const parsed = parsedList[0];
-                                    const newJd: JobDescription = {
-                                        id: jdId,
-                                        title: title,
-                                        fileName: file.name,
-                                        rawContent: rawJDInfo,
-                                        parsedData: {
-                                            ...parsed,
-                                            keyClarification: keyClarification
-                                        }
-                                    };
-
-                                    // 实时更新 UI
-                                    setJds(prev => {
-                                        const existingIndex = prev.findIndex(j => j.id === jdId);
-                                        if (existingIndex !== -1) {
-                                            const updated = [...prev];
-                                            updated[existingIndex] = newJd;
-                                            return updated;
-                                        }
-                                        return [...prev, newJd];
-                                    });
-
-                                    setSelectedJds(prev => new Set(prev).add(jdId));
-
-                                    // 持久化
-                                    await JDStorage.save(newJd);
-                                }
-
-                                processedCount++;
-                                console.log(`[JD Import] 进度: ${processedCount}/${totalRows}`);
-
-                            } catch (rowError) {
-                                errorCount++;
-                                console.error(`[JD Import] 第 ${i + 1} 行解析失败:`, rowError);
-                                // 继续处理下一行，不中断整个流程
-                            }
+                            rowMetadata.push({
+                                rowIndex: i,
+                                jdId,
+                                title,
+                                rawContent: rawJDInfo,
+                                keyClarification
+                            });
                         }
                     }
 
-                    if (errorCount > 0) {
-                        alert(`导入完成，但有 ${errorCount} 行解析失败，请查看控制台了解详情。`);
+                    if (batchInputs.length === 0) {
+                        alert('Excel 中没有找到有效的岗位数据');
+                    } else {
+                        console.log(`[JD Import] 开始批量解析 ${batchInputs.length} 个岗位...`);
+
+                        // 第二步：一次性调用批量 API
+                        const parsedResults = await parseJDBatchWithAI(batchInputs);
+
+                        console.log(`[JD Import] 批量解析完成，返回 ${parsedResults.length} 个结果`);
+
+                        // 第三步：将结果映射回原始数据并更新 UI
+                        const newJds: JobDescription[] = [];
+
+                        for (const parsed of parsedResults) {
+                            const meta = rowMetadata.find(m => m.rowIndex === parsed.rowIndex);
+                            if (meta) {
+                                const newJd: JobDescription = {
+                                    id: meta.jdId,
+                                    title: meta.title,
+                                    fileName: file.name,
+                                    rawContent: meta.rawContent,
+                                    parsedData: {
+                                        jobCode: parsed.jobCode,
+                                        title: parsed.title,
+                                        keyClarification: meta.keyClarification || parsed.keyClarification,
+                                        description: parsed.description,
+                                        responsibilities: parsed.responsibilities,
+                                        requirements: parsed.requirements
+                                    }
+                                };
+                                newJds.push(newJd);
+                            }
+                        }
+
+                        // 批量更新 UI
+                        if (newJds.length > 0) {
+                            setJds(prev => {
+                                const updatedList = [...prev];
+                                newJds.forEach(newJd => {
+                                    const existingIndex = updatedList.findIndex(j => j.id === newJd.id);
+                                    if (existingIndex !== -1) {
+                                        updatedList[existingIndex] = newJd;
+                                    } else {
+                                        updatedList.push(newJd);
+                                    }
+                                });
+                                return updatedList;
+                            });
+
+                            setSelectedJds(prev => {
+                                const newSet = new Set(prev);
+                                newJds.forEach(jd => newSet.add(jd.id));
+                                return newSet;
+                            });
+
+                            // 批量持久化
+                            for (const jd of newJds) {
+                                await JDStorage.save(jd);
+                            }
+                        }
+
+                        // 检查是否有未解析成功的行
+                        const failedCount = batchInputs.length - parsedResults.length;
+                        if (failedCount > 0) {
+                            alert(`导入完成，成功 ${parsedResults.length} 个，失败 ${failedCount} 个`);
+                        }
                     }
                 } else {
                     // 非 Excel 文件走原来的逻辑
