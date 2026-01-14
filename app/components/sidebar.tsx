@@ -32,7 +32,7 @@ import { isMcpEnabled } from "../mcp/actions";
 
 const DISCOVERY = [
   { name: Locale.SearchChat.Page.Title, path: Path.SearchChat },
-  { name: "简历匹配", path: Path.ResumeMatch },
+  // { name: "简历匹配", path: Path.ResumeMatch },
 ];
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
@@ -343,11 +343,7 @@ export function SideBar(props: { className?: string }) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <IconButton
-                  aria="Learn AI"
-                  text="AI"
-                  shadow
-                />
+                <IconButton aria="Learn AI" text="AI" shadow />
               </a>
             </div>
           </>
